@@ -5,7 +5,7 @@
 # Data management
 data:
   # Back end (JSON, MYSQL) (default JSON)
-  # If you enable MySQL here, you should definitely enable it for PyrCore as well
+  # If you enable MySQL here, you should definitely enable it for GCore as well
   backend: JSON
   # Synchronization delay (in seconds) (disable with -1) (default 300)
   # If this is enabled, the plugin will check the stored data (files/database), and if there's new/different data there, cached data will be overriden
