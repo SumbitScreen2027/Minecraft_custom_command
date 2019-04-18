@@ -1,0 +1,19 @@
+# Display
+name: CustomCommands
+description: 'The easiest, and most feature packed custom commands plugin !'
+author: GuillaumeVDN
+website: www.guillaumevdn.com
+# Techy
+version: 3.1.1
+api-version: 1.13
+main: com.guillaumevdn.customcommands.CustomCommands
+depend: [GCore]
+# Commands
+commands:
+  customcommands:
+    description: Custom commands
+    aliases: [ccmd]
+# Permission
+permissions:
+  customcommands.admin:
+    default: op
