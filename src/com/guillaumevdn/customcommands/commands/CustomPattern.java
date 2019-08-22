@@ -10,7 +10,6 @@ import com.guillaumevdn.customcommands.CustomCommands;
 import com.guillaumevdn.customcommands.commands.action.Action;
 import com.guillaumevdn.customcommands.commands.action.ActionData;
 import com.guillaumevdn.customcommands.data.CCUser;
-
 import com.guillaumevdn.gcore.GLocale;
 import com.guillaumevdn.gcore.lib.util.Utils;
 
@@ -111,7 +110,7 @@ public class CustomPattern extends CommandPattern {
 					current = null;
 				}
 			}
-		}.runTaskTimerAsynchronously(CustomCommands.inst(), 0L, 1L);
+		}.runTaskTimer(CustomCommands.inst(), 0L, 1L);
 	}
 
 }

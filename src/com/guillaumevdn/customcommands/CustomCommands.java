@@ -24,6 +24,7 @@ import com.guillaumevdn.gcore.lib.command.CommandRoot;
 import com.guillaumevdn.gcore.lib.configuration.YMLConfiguration;
 import com.guillaumevdn.gcore.lib.data.DataManager.BackEnd;
 import com.guillaumevdn.gcore.lib.messenger.Messenger;
+import com.guillaumevdn.gcore.lib.util.Handler;
 import com.guillaumevdn.gcore.lib.util.Pair;
 import com.guillaumevdn.gcore.lib.util.Utils;
 
@@ -219,22 +220,26 @@ public class CustomCommands extends GPlugin implements Listener {
 	// ------------------------------------------------------------
 
 	private long last = 0L;
-	
+
 	@EventHandler
-	public void event(PlayerCommandPreprocessEvent event) {
-		if (System.currentTimeMillis() - last < 5L) return;
+	public void event(final PlayerCommandPreprocessEvent event) {
+		if (System.currentTimeMillis() - last < 50L) return;
 		last = System.currentTimeMillis();
-		Player sender = event.getPlayer();
+		final Player sender = event.getPlayer();
 		Pair<String, String[]> separate = Utils.separateRoot(event.getMessage().substring(1), false);
 		String root = separate.getA();
-		String[] args = separate.getB();
-
-		for (CustomCommand command : commands) {
-			for (String alias : command.getAliases()) {
+		final String[] args = separate.getB();
+		for (final CustomCommand command : commands) {
+			for (final String alias : command.getAliases()) {
 				if (alias.equalsIgnoreCase(root)) {
 					try {
 						event.setCancelled(true);
-						command.call(new com.guillaumevdn.customcommands.commands.CommandCall(event.getPlayer(), alias, args));
+						new Handler() {
+							@Override
+							public void execute() {
+								command.call(new com.guillaumevdn.customcommands.commands.CommandCall(sender, alias, args));
+							}
+						}.runSync();
 						return;
 					} catch (Throwable exception) {
 						exception.printStackTrace();

@@ -26,7 +26,7 @@ public class CommandSaveItem extends CommandArgument {
 
 			// valid item
 			ItemStack item = player.getItemInHand();
-			if (item == null || Mat.from(item).isAir()) {
+			if (item == null || Mat.fromItem(item).isAir()) {
 				GLocale.MSG_GENERIC_NOHANDITEM.send(player, "{plugin}", CustomCommands.inst().getName());
 				return;
 			}
