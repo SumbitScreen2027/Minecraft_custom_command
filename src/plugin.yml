@@ -4,7 +4,7 @@ description: 'The easiest, and most feature packed custom commands plugin !'
 author: GuillaumeVDN
 website: www.guillaumevdn.com
 # Techy
-version: 3.1.4
+version: 3.3.0
 api-version: 1.13
 main: com.guillaumevdn.customcommands.CustomCommands
 depend: [GCore]

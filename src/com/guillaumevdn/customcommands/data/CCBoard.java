@@ -1,7 +1,6 @@
 package com.guillaumevdn.customcommands.data;
 
 import java.io.File;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import com.guillaumevdn.customcommands.CustomCommands;
-
 import com.guillaumevdn.gcore.GCore;
 import com.guillaumevdn.gcore.lib.data.DataSingleton;
 import com.guillaumevdn.gcore.lib.data.mysql.Query;
@@ -40,6 +38,12 @@ public class CCBoard extends DataSingleton {
 		pushAsync(id, "item", Utils.serializeItem(item));
 	}
 
+	public void removeItem(String id) {
+		if (items.remove(id) != null) {
+			deleteAsync(id, "item");
+		}
+	}
+
 	public Map<String, Location> getAllLocations() {
 		return Collections.unmodifiableMap(locations);
 	}
@@ -51,6 +55,12 @@ public class CCBoard extends DataSingleton {
 	public void setLocation(String id, Location location) {
 		locations.put(id, location);
 		pushAsync(id, "location", Utils.serializeWXYZLocation(location));
+	}
+
+	public void removeLocation(String id) {
+		if (locations.remove(id) != null) {
+			deleteAsync(id, "location");
+		}
 	}
 
 	// data
@@ -117,8 +127,7 @@ public class CCBoard extends DataSingleton {
 
 	@Override
 	protected final void mysqlPull() throws SQLException {
-		ResultSet set = getDataManager().performMySQLGetQuery(new Query("SELECT * FROM `" + getMySQLTable() + "`;"));
-		if (set != null) {
+		getDataManager().performMySQLGetQuery(new Query("SELECT * FROM `" + getMySQLTable() + "`;"), set -> {
 			while (set.next()) {
 				// decode
 				String id = set.getString("id");
@@ -130,7 +139,7 @@ public class CCBoard extends DataSingleton {
 					locations.put(id, Utils.unserializeWXYZLocation(data));
 				}
 			}
-		}
+		});
 	}
 
 	@Override
@@ -146,9 +155,10 @@ public class CCBoard extends DataSingleton {
 
 	@Override
 	protected final void mysqlDelete(Object... params) {
-		if (params != null && params.length == 1) {
+		if (params != null && params.length == 2) {
 			String id = (String) params[0];
-			getDataManager().performMySQLUpdateQuery(new Query("DELETE FROM `" + getMySQLTable() + "` WHERE `id`=?;", id));
+			String type = (String) params[1];
+			getDataManager().performMySQLUpdateQuery(new Query("DELETE FROM `" + getMySQLTable() + "` WHERE `id`=? AND `type`=?;", id, type));
 		} else {
 			getDataManager().performMySQLUpdateQuery(new Query("DELETE FROM `" + getMySQLTable() + "`;"));
 		}

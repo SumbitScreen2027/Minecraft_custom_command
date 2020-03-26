@@ -41,6 +41,8 @@ public class CCUser extends DataElement {
 	// methods
 	public void setCooldownEnd(CustomPattern pattern, long cooldownEnd) {
 		cooldownEnds.put(pattern.getArgumentsId(), cooldownEnd);
+		// save
+		pushAsync();
 	}
 
 	public boolean hasCooldown(CustomPattern pattern) {

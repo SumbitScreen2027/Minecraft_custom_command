@@ -117,6 +117,7 @@ public class CustomCommands extends GPlugin implements Listener {
 					String permission = getConfiguration().getString(path + ".permission", null);
 					int cooldown = getConfiguration().getInt(path + ".cooldown", 0);
 					boolean toggle = getConfiguration().getBoolean(path + ".toggle", false);
+					String customNoPermissionMessage = getConfiguration().getString(path + ".no_permission_message", null);
 					List<String> argWorlds = getConfiguration().getList(path + ".worlds", Utils.emptyList());
 
 					// perform
@@ -141,7 +142,7 @@ public class CustomCommands extends GPlugin implements Listener {
 					// register
 					String id = commandKey + "." + patternKey;
 					try {
-						arguments.add(new CustomPattern(id, cooldown, toggle, performToggleFalse, performToggleTrue, argWorlds, rawPattern, description, permission));
+						arguments.add(new CustomPattern(id, cooldown, toggle, performToggleFalse, performToggleTrue, argWorlds, rawPattern, description, permission, customNoPermissionMessage));
 					} catch (InvalidPatternError error) {
 						Logger.log(Level.WARNING, this, "Could not load custom command pattern " + id + " : " + error.getMessage());
 					}
@@ -199,6 +200,8 @@ public class CustomCommands extends GPlugin implements Listener {
 
 		// command
 		CommandRoot root = new CommandRoot(this, Utils.asList("customcommands", "ccmd"), null, null, false);
+		root.addChild(new CommandDeleteItem());
+		root.addChild(new CommandDeleteLocation());
 		root.addChild(new CommandSaveItem());
 		root.addChild(new CommandSaveLocation());
 		registerCommand(root, CCPerm.CUSTOMCOMMANDS_ADMIN);

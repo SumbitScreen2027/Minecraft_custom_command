@@ -239,6 +239,7 @@ commands:
         pattern: 'poke [player-online]%target_player [string]$defaultpoke%poke_message'
         # not everyone can poke so let's use a permission
         permission: myserver.permission.poke
+        no_permission_message: 'This is a custom permission error message : you don''t have the permission to use this !'
         description: 'poke a player'
         perform:
           1:

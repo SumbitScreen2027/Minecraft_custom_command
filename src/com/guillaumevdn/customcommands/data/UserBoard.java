@@ -1,7 +1,6 @@
 package com.guillaumevdn.customcommands.data;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,7 +97,7 @@ public class UserBoard extends DataBoard<CCUser> {
 	}
 
 	@Override
-	protected final void mysqlPull() throws SQLException {
+	protected final void mysqlPull() {
 		throw new UnsupportedOperationException();// can't pull the whole user board
 	}
 

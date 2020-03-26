@@ -23,8 +23,8 @@ public class CustomPattern extends CommandPattern {
 	private List<String> worlds;
 
 	public CustomPattern(String argumentsId, int cooldown, boolean toggle, List<ActionData> actionsToggleFalse, List<ActionData> actionsToggleTrue, List<String> worlds,
-			String rawPattern, String description, String permission) throws InvalidPatternError {
-		super(rawPattern, description, permission, true);
+			String rawPattern, String description, String permission, String customNoPermissionMessage) throws InvalidPatternError {
+		super(rawPattern, description, permission, true, customNoPermissionMessage);
 		this.argumentsId = argumentsId;
 		this.cooldown = cooldown;
 		this.toggle = toggle;

@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 import com.guillaumevdn.customcommands.commands.ArgumentModel.ArgumentModelPhrase;
 import com.guillaumevdn.customcommands.commands.CommandPatternResult.Result;
-
 import com.guillaumevdn.gcore.GLocale;
 import com.guillaumevdn.gcore.lib.Perm;
 import com.guillaumevdn.gcore.lib.messenger.Messenger;
@@ -23,6 +22,7 @@ public class CommandPattern {
 	private String description;
 	private Perm permission;
 	private boolean playerOnly;
+	private Text permissionErrorText;
 
 	/**
 	 * Creates a new command arguments pattern.
@@ -31,10 +31,11 @@ public class CommandPattern {
 	 * Add description to model arguments with % like <pre>[integer]%amount_to_charge <b>or</b> [world]%world_name <b>(_ will be replaced by a space)</b></pre>
 	 * @param rawPattern the raw pattern
 	 */
-	public CommandPattern(String rawPattern, String description, String permission, boolean playerOnly) throws InvalidPatternError {
+	public CommandPattern(String rawPattern, String description, String permission, boolean playerOnly, String customNoPermissionMessage) throws InvalidPatternError {
 		this.description = description;
 		this.permission = permission == null ? null : new Perm(null, permission);
 		this.playerOnly = playerOnly;
+		this.permissionErrorText = customNoPermissionMessage != null ? new Text("en_US", customNoPermissionMessage) : GLocale.MSG_GENERIC_NOPERMISSION;
 		// empty arguments
 		// load
 		boolean hasOptionalArguments = false, hasPhraseArgument = false;
@@ -139,7 +140,7 @@ public class CommandPattern {
 	public CommandPatternResult call(CommandCall call) {
 		// no permission
 		if (permission != null && !call.senderHasPermission(permission)) {
-			return new CommandPatternResult(Result.ERROR, null, GLocale.MSG_GENERIC_NOPERMISSION);
+			return new CommandPatternResult(Result.ERROR, null, permissionErrorText);
 		}
 		// not a player
 		if (playerOnly && !call.senderIsPlayer()) {
