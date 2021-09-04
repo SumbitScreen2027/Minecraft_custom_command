@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/GCore v8"/>
+	<classpathentry kind="lib" path="C:/Users/vande/Desktop/Dropbox/Development/Resources/Spigot jars/spigot-1.17-original.jar"/>
+	<classpathentry kind="lib" path="C:/Users/vande/Desktop/Dropbox/Development/Resources/Spigot jars/PlaceholderAPI-2.10.9.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
