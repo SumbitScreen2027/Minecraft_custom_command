@@ -19,6 +19,9 @@ messageInvalidInputPlayer: |
 messageInvalidInputStringSize: |
   &7You entered a string of invalid size.
 
+messageInvalidInputPhrase: |
+  &7You need to add at least one word.
+
 # -------------------- Misc --------------------
 
 messageNoHelp: |

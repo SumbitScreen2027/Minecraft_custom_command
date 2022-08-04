@@ -26,10 +26,10 @@ public abstract class ArgumentModel extends Argument {
 		if (model.startsWith("[string]")) {
 			return new ArgumentModelString("[string]", def, description);
 		} else if (model.startsWith("[string:")) {
-			String[] split = model.split("\\:");
-			if (split.length == 3) {
-				Integer min = NumberUtils.integerOrNull(split[1]);
-				Integer max = NumberUtils.integerOrNull(split[2]);
+			String[] split = model.substring("[string:".length()).replace("]", "").split("\\:");
+			if (split.length == 2) {
+				Integer min = NumberUtils.integerOrNull(split[0]);
+				Integer max = NumberUtils.integerOrNull(split[1]);
 				if (min != null && max != null) {
 					return new ArgumentModelStringSized("[string:" + min + ":" + max + "]", min, max, def, description);
 				}

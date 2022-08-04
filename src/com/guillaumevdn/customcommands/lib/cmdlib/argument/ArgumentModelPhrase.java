@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
+import com.guillaumevdn.customcommands.TextCCMD;
 import com.guillaumevdn.customcommands.lib.cmdlib.CommandPatternResult;
 import com.guillaumevdn.customcommands.lib.cmdlib.CommandPatternResult.Result;
 import com.guillaumevdn.gcore.lib.collection.CollectionUtils;
@@ -18,6 +19,9 @@ public class ArgumentModelPhrase extends ArgumentModel {
 
 	@Override
 	public CommandPatternResult call(CommandSender sender, String raw) {
+		if (raw == null) {  // empty phrase
+			return new CommandPatternResult(Result.ERROR, raw, TextCCMD.messageInvalidInputPhrase);
+		}
 		return new CommandPatternResult(Result.MATCH, modelPhraseWildcards);
 	}
 

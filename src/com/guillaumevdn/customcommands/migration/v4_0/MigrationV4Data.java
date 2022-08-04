@@ -19,7 +19,7 @@ import com.guillaumevdn.customcommands.listeners.V3UserCCMD;
 import com.guillaumevdn.gcore.GCore;
 import com.guillaumevdn.gcore.lib.concurrency.RWLowerCaseHashMap;
 import com.guillaumevdn.gcore.lib.configuration.YMLConfiguration;
-import com.guillaumevdn.gcore.lib.data.Query;
+import com.guillaumevdn.gcore.lib.data.sql.Query;
 import com.guillaumevdn.gcore.lib.file.FileUtils;
 import com.guillaumevdn.gcore.lib.migration.BackupBehavior;
 import com.guillaumevdn.gcore.lib.migration.Migration;

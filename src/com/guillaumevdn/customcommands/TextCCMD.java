@@ -15,6 +15,7 @@ public enum TextCCMD implements TextEnumElement {
 	messageInvalidInputOfflinePlayer,
 	messageInvalidInputPlayer,
 	messageInvalidInputStringSize,
+	messageInvalidInputPhrase,
 
 	messageNoHelp,
 	messageCooldown,
