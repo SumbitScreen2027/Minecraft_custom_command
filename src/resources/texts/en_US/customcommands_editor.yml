@@ -25,6 +25,9 @@ descriptionCustomCommandPatternWorlds: |
 descriptionCustomCommandPatternCooldown: |
   &7The time to wait before performing this command pattern again
 
+descriptionCustomCommandPatternCurrencyCost: |
+  &7The currencies cost required to perform this command
+
 descriptionCustomCommandPatternToggleMode: |
   &7If enabled, this will make it so every other execution will be considered as 'toggling on' or 'toggling off' the pattern
   &7Actions with &6on_toggle_on &7will be performed when toggling on, and actions without will be performed when toggling off

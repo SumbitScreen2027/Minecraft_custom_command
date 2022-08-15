@@ -2,6 +2,8 @@
 package com.guillaumevdn.customcommands.lib.customcommand;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,6 +19,7 @@ import com.guillaumevdn.customcommands.lib.cmdlib.CustomCommandCall;
 import com.guillaumevdn.gcore.lib.collection.CollectionUtils;
 import com.guillaumevdn.gcore.lib.compatibility.material.CommonMats;
 import com.guillaumevdn.gcore.lib.compatibility.material.Mat;
+import com.guillaumevdn.gcore.lib.economy.Currency;
 import com.guillaumevdn.gcore.lib.element.struct.Element;
 import com.guillaumevdn.gcore.lib.element.struct.Need;
 import com.guillaumevdn.gcore.lib.element.struct.container.ContainerElement;
@@ -25,6 +28,7 @@ import com.guillaumevdn.gcore.lib.element.type.basic.ElementPermission;
 import com.guillaumevdn.gcore.lib.element.type.basic.ElementString;
 import com.guillaumevdn.gcore.lib.element.type.basic.ElementText;
 import com.guillaumevdn.gcore.lib.element.type.container.ElementWorldRestriction;
+import com.guillaumevdn.gcore.lib.element.type.map.ElementCurrencyDoubleMap;
 import com.guillaumevdn.gcore.lib.object.ObjectUtils;
 import com.guillaumevdn.gcore.lib.string.StringUtils;
 import com.guillaumevdn.gcore.lib.string.Text;
@@ -43,6 +47,7 @@ public class ElementPattern extends ContainerElement {
 	private ElementText permissionErrorMessage = addText("permission_error_message", Need.optional(), TextEditorCCMD.descriptionCustomCommandPatternPermissionErrorMessage);
 	private ElementWorldRestriction worlds = addWorldRestriction("worlds", Need.optional(), TextEditorCCMD.descriptionCustomCommandPatternWorlds);
 	private ElementDuration cooldown = addDuration("cooldown", Need.optional(), null, null, TextEditorCCMD.descriptionCustomCommandPatternCooldown);
+	private ElementCurrencyDoubleMap currencyCost = addCurrencyDoubleMap("currency_cost", Need.optional(), getEditorDescription());
 	private ElementBoolean toggleMode = addBoolean("toggle_mode", Need.optional(false), TextEditorCCMD.descriptionCustomCommandPatternToggleMode);
 	private ElementActionList actions = add(new ElementActionList(this, "actions", Need.required(), TextEditorCCMD.descriptionCustomCommandPatternActions));
 
@@ -74,6 +79,10 @@ public class ElementPattern extends ContainerElement {
 		return cooldown;
 	}
 
+	public ElementCurrencyDoubleMap getCurrencyCost() {
+		return currencyCost;
+	}
+
 	public ElementBoolean getToggleMode() {
 		return toggleMode;
 	}
@@ -101,9 +110,10 @@ public class ElementPattern extends ContainerElement {
 					final CommandSender sender = call.getSender();
 					final Player player = ObjectUtils.castOrNull(sender, Player.class);
 					final UserCCMD user = sender instanceof Player ? UserCCMD.cachedOrNull((Player) sender) : null;
+					final Replacer rep = Replacer.justPlayer(player);
 
 					// worlds
-					if (player != null && !worlds.isAllowed(player.getWorld(), Replacer.of(player))) {
+					if (player != null && !worlds.isAllowed(player.getWorld(), rep)) {
 						TextCCMD.messageUnauthorizedWorld.send(sender);
 						return;
 					}
@@ -120,6 +130,19 @@ public class ElementPattern extends ContainerElement {
 						}
 					}
 
+					// cost
+					final Map<Currency, Double> cost = currencyCost.parse(rep).orEmptyMap();
+					for (Entry<Currency, Double> c : cost.entrySet()) {
+						if (!c.getKey().ensureHas(player, c.getValue(), true)) {
+							return;
+						}
+					}
+
+					// take money
+					for (Entry<Currency, Double> c : cost.entrySet()) {
+						c.getKey().take(player, c.getValue());
+					}
+
 					// update user
 					final boolean toggleMode = getToggleMode().parseGeneric().orElse(false);
 					if (user != null) {
@@ -134,8 +157,8 @@ public class ElementPattern extends ContainerElement {
 
 					final String taskId = "command_" + command.getId() + "_" + sender.getName() + "_" + StringUtils.generateRandomAlphanumericString(5);
 					final boolean isNowToggled = user == null || user.isToggled(command.getId(), ElementPattern.this.getId());
-					List<ElementAction> remainingActions = CollectionUtils.asList(getActions().values());
-					WrapperInteger ticksToWait = WrapperInteger.of(0);
+					final List<ElementAction> remainingActions = CollectionUtils.asList(getActions().values());
+					final WrapperInteger ticksToWait = WrapperInteger.of(0);
 
 					CustomCommands.inst().registerTask(taskId, false, 1, () -> {
 						if (remainingActions.isEmpty()) {

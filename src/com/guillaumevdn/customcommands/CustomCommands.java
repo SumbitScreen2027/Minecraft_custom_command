@@ -65,7 +65,7 @@ public final class CustomCommands extends GPlugin<ConfigCCMD, PermissionCCMD> {
 	@Override
 	protected void registerTexts() {
 		registerTextFile(new TextFile<>(CustomCommands.inst(), "customcommands.yml", TextCCMD.class));
-		registerTextFile(new TextFile<>(CustomCommands.inst(), "customcommands_editor.yml", TextCCMD.class));
+		registerTextFile(new TextFile<>(CustomCommands.inst(), "customcommands_editor.yml", TextEditorCCMD.class));
 	}
 
 	@Override

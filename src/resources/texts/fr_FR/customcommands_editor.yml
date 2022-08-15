@@ -25,6 +25,9 @@ descriptionCustomCommandPatternWorlds: |
 descriptionCustomCommandPatternCooldown: |
   &7Le temps à attendre avant de réutiliser cette commande à nouveau
 
+descriptionCustomCommandPatternCurrencyCost: |
+  &7Le prix à payer pour utiliser cette commande
+
 descriptionCustomCommandPatternToggleMode: |
   &7Si activé, ceci fera en sorte qu'une exécution sur deux soit considérée comme l'activation et les autres la désactivation
   &7Les actions avec &6on_toggle_on &7seront exécutées en activant, et les actions sans seront exécutées en désactivant
