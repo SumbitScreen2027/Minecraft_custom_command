@@ -16,6 +16,8 @@ import com.guillaumevdn.customcommands.lib.action.element.ElementAction;
 import com.guillaumevdn.customcommands.lib.action.element.ElementActionList;
 import com.guillaumevdn.customcommands.lib.cmdlib.CommandPattern;
 import com.guillaumevdn.customcommands.lib.cmdlib.CustomCommandCall;
+import com.guillaumevdn.customcommands.lib.condition.element.ConditionsCheckResult;
+import com.guillaumevdn.customcommands.lib.condition.element.ElementConditions;
 import com.guillaumevdn.gcore.lib.collection.CollectionUtils;
 import com.guillaumevdn.gcore.lib.compatibility.material.CommonMats;
 import com.guillaumevdn.gcore.lib.compatibility.material.Mat;
@@ -47,7 +49,8 @@ public class ElementPattern extends ContainerElement {
 	private ElementText permissionErrorMessage = addText("permission_error_message", Need.optional(), TextEditorCCMD.descriptionCustomCommandPatternPermissionErrorMessage);
 	private ElementWorldRestriction worlds = addWorldRestriction("worlds", Need.optional(), TextEditorCCMD.descriptionCustomCommandPatternWorlds);
 	private ElementDuration cooldown = addDuration("cooldown", Need.optional(), null, null, TextEditorCCMD.descriptionCustomCommandPatternCooldown);
-	private ElementCurrencyDoubleMap currencyCost = addCurrencyDoubleMap("currency_cost", Need.optional(), getEditorDescription());
+	private ElementCurrencyDoubleMap currencyCost = addCurrencyDoubleMap("currency_cost", Need.optional(), TextEditorCCMD.descriptionCustomCommandPatternCurrencyCost);
+	private ElementConditions conditions = add(new ElementConditions(this, "conditions", Need.optional(), TextEditorCCMD.descriptionCustomCommandPatternConditions));
 	private ElementBoolean toggleMode = addBoolean("toggle_mode", Need.optional(false), TextEditorCCMD.descriptionCustomCommandPatternToggleMode);
 	private ElementActionList actions = add(new ElementActionList(this, "actions", Need.required(), TextEditorCCMD.descriptionCustomCommandPatternActions));
 
@@ -81,6 +84,10 @@ public class ElementPattern extends ContainerElement {
 
 	public ElementCurrencyDoubleMap getCurrencyCost() {
 		return currencyCost;
+	}
+
+	public ElementConditions getConditions() {
+		return conditions;
 	}
 
 	public ElementBoolean getToggleMode() {
@@ -138,10 +145,20 @@ public class ElementPattern extends ContainerElement {
 						}
 					}
 
+					// conditions
+					final ConditionsCheckResult res = conditions.match(player, rep, true);
+					if (!res.isValid()) {
+						res.getErrors().forEach(text -> text.send(player));
+						return;
+					}
+
 					// take money
 					for (Entry<Currency, Double> c : cost.entrySet()) {
 						c.getKey().take(player, c.getValue());
 					}
+
+					// take conditions
+					conditions.takeIfNeededAndSupported(player, rep);
 
 					// update user
 					final boolean toggleMode = getToggleMode().parseGeneric().orElse(false);

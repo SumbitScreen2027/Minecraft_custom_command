@@ -7,6 +7,7 @@ import com.guillaumevdn.customcommands.command.CustomcommandsEdit;
 import com.guillaumevdn.customcommands.data.user.BoardUsersCCMD;
 import com.guillaumevdn.customcommands.data.user.UserCCMD;
 import com.guillaumevdn.customcommands.lib.action.ActionTypes;
+import com.guillaumevdn.customcommands.lib.condition.ConditionTypes;
 import com.guillaumevdn.customcommands.lib.serialization.SerializerCCMD;
 import com.guillaumevdn.customcommands.lib.serialization.adapter.AdapterUserCCMD;
 import com.guillaumevdn.customcommands.listeners.ConnectionEvents;
@@ -43,9 +44,14 @@ public final class CustomCommands extends GPlugin<ConfigCCMD, PermissionCCMD> {
 	// ----- data
 
 	private ActionTypes actionTypes;
+	private ConditionTypes conditionTypes;
 
 	public ActionTypes getActionTypes() {
 		return actionTypes;
+	}
+
+	public ConditionTypes getConditionTypes() {
+		return conditionTypes;
 	}
 
 	// ----- plugin
@@ -54,6 +60,7 @@ public final class CustomCommands extends GPlugin<ConfigCCMD, PermissionCCMD> {
 	public void registerTypes() {
 		SerializerCCMD.init();
 		actionTypes = new ActionTypes();
+		conditionTypes = new ConditionTypes();
 	}
 
 	@Override

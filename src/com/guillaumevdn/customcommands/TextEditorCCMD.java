@@ -20,6 +20,7 @@ public enum TextEditorCCMD implements TextEnumElement {
 	descriptionCustomCommandPatternWorlds,
 	descriptionCustomCommandPatternCooldown,
 	descriptionCustomCommandPatternCurrencyCost,
+	descriptionCustomCommandPatternConditions,
 	descriptionCustomCommandPatternToggleMode,
 	descriptionCustomCommandPatternActions,
 
@@ -41,6 +42,56 @@ public enum TextEditorCCMD implements TextEnumElement {
 	descriptionActionTeleportLocation,
 
 	descriptionActionWaitDuration,
+
+	// ----- conditions
+	descriptionConditionsConditions,
+	descriptionConditionsMatchAmount,
+	descriptionConditionsNoMatchAmount,
+	descriptionConditionsErrorMessage,
+
+	// ----- condition : common
+	descriptionConditionType,
+	descriptionConditionErrorMessage,
+
+	descriptionConditionGameTimeStartTicks,
+	descriptionConditionGameTimeEndTicks,
+
+	descriptionConditionInventoryFreeForItemsItems,
+	descriptionConditionItemsItems,
+
+	descriptionConditionGenericLogicLogic,
+	descriptionConditionGenericLogicLogicPlaceholder,
+	
+	descriptionConditionGenericLogicOnlineGoal,
+
+	descriptionConditionLogicMoneyCurrency,
+
+	descriptionConditionPermissionPermission,
+
+	descriptionConditionPermissionOnlineGoal,
+
+	descriptionConditionPositionPosition,
+
+	descriptionConditionScoreboardTagTagName,
+	descriptionConditionScoreboardTagMustHave,
+
+	descriptionConditionLogicScoreboardValueObjectiveName,
+	descriptionConditionLogicScoreboardValueScoreName,
+
+	descriptionConditionDayTimeStart,
+	descriptionConditionDayTimeEnd,
+
+	descriptionConditionWeekTimeStart,
+	descriptionConditionWeekTimeEnd,
+
+	descriptionConditionMonthTimeStart,
+	descriptionConditionMonthTimeEnd,
+
+	descriptionConditionYearTimeStart,
+	descriptionConditionYearTimeEnd,
+
+	// ----- condition
+	descriptionConditionMustTake,
 
 	;
 
