@@ -19,6 +19,7 @@ public enum TextEditorCCMD implements TextEnumElement {
 	descriptionCustomCommandPatternPermissionErrorMessage,
 	descriptionCustomCommandPatternWorlds,
 	descriptionCustomCommandPatternCooldown,
+	descriptionCustomCommandPatternCurrencyCost,
 	descriptionCustomCommandPatternToggleMode,
 	descriptionCustomCommandPatternActions,
 
